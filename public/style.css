@@ -1,0 +1,19 @@
+body {
+    background: linear-gradient(to right, #cbffcb, #fbb0a9);
+}
+
+a:link {
+    color: #aaf0d1;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #ff7f50;
+}
+
+h1 {
+    font-size: 36px;
+    font-family: OCR A Std, monospace;
+    color: #00668b;
+    text-shadow: -2px 0 2px #fff;
+}

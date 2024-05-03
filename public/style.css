@@ -1,19 +1,14 @@
 body {
-    background: linear-gradient(to right, #cbffcb, #fbb0a9);
+    background: linear-gradient(to left, #1E1E1E, #686868);
+    /* font-family: "Lucida Console", "Courier New", monospace; */
+    place-content: center;
+    justify-content: center;
+    height: 100%;
 }
 
-a:link {
-    color: #aaf0d1;
-    text-decoration: none;
-}
-
-a:visited {
-    color: #ff7f50;
-}
-
-h1 {
-    font-size: 36px;
-    font-family: OCR A Std, monospace;
-    color: #00668b;
-    text-shadow: -2px 0 2px #fff;
+.problemOne {
+    font-family: "Lucida Console", "Courier New", monospace;
+    color: red;
+    place-content: center;
+    justify-content: center;
 }

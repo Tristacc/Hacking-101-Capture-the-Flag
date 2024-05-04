@@ -15,6 +15,13 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.render("problemOne");
 });
+app.get("/gkdojmrjeio879", (req, res) => {
+  res.render("problemTwo");
+});
+
+app.get("/djfoei89788", (req, res) => {
+  res.render("problemThree");
+});
 
 // create server and setsup
 app.listen(port, () =>

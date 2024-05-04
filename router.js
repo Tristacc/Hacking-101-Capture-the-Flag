@@ -13,6 +13,15 @@ app.get("/djfoei89788", (req, res) => {
   res.render("problemThree");
 });
 
-app.get("/addUser", usersController.addUser);
+app.get("/djfoei89788", (req, res) => {
+  res.render("problemThree");
+});
+
+app.get("/signUp", (req, res) => {
+  res.render("signUp");
+});
+
+app.post("/logIn", usersController.validate);
+app.post("/signUp", usersController.addUser);
 
 module.exports = app;

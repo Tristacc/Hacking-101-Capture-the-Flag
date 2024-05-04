@@ -12,12 +12,18 @@ const db = new sqlite3.Database(dbPath, (err) => {
   console.log("Connected successfully to the database.");
 });
 
+function validate(req, res, next) {
+  console.log("check user");
+  next();
+}
+
 function addUser(req, res, next) {
-  console.log("adduser");
+  console.log("add new user sucessfully");
   next();
 }
 
 // Export all functions
 module.exports = {
   addUser,
+  validate,
 };

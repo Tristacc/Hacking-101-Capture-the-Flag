@@ -21,19 +21,25 @@ app.use(express.static("public"));
 // Function to initialize database tables
 function initializeDatabase() {
   db.run(
-    `CREATE TABLE IF NOT EXISTS messages (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    content TEXT NOT NULL
+    `CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL,
+      isAdmin BOOLEAN NOT NULL DEFAULT 0
+    );
   )`,
     (err) => {
       if (err) {
         console.error("Error creating table:", err.message);
         return;
       }
-      console.log("Table 'messages' ensured.");
+      console.log("Table 'users' ensured.");
     }
   );
 }
+app.use(express.json()); // For parsing application/json
+app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
 const db = new sqlite3.Database(
   "./db/xssProject.db",

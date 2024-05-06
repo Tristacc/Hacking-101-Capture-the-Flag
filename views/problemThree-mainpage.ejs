@@ -1,12 +1,17 @@
-<!-- only logged in user and admin can access the context of this page  -->
-<% if(status == 'true'){ %>
-<p>you are admin</p>
-<% }else{ %>
-<p> you are normal user </p>
+<section>
+    <!-- only logged in user and admin can access the context of this page  -->
+    <% if(status == 'true'){ %>
+    <p>you are admin</p>
+    <% }else{ %>
 
-<%} %>
-<!-- you are user -->
+    <p id="result"> you are normal user </p>
+
+    <%} %>
+    <!-- you are user -->
+    <input type="text" />
+    <button>send</button>
 
 
-
-<a href="/logout">logout</a>
+    <a href="/logout">logout</a>
+</section>
+<script type="text/javascript" src="problemThree.js"></script>

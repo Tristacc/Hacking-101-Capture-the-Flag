@@ -4,9 +4,8 @@ const app = express();
 const port = 3000;
 
 const sqlite3 = require("sqlite3").verbose();
-const expressValidator = require("express-validator");
 const expressSession = require("express-session");
-
+const puppeteer = require("puppeteer");
 // create server and setsup
 app.set("view engine", "ejs");
 app.use(layouts);
@@ -54,6 +53,23 @@ function insertDefaultAdmin() {
     }
   });
 }
+(async () => {
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+
+  // Go to the login page
+  await page.goto("http://localhost:3000/login", { waitUntil: "networkidle0" });
+
+  // Assuming form fields are named appropriately
+  await page.type("[name=email]", "admin@email.com");
+  await page.type("[name=password]", "admin");
+  await page.click("[type=submit]");
+
+  // Check cookies set by the server
+  const cookies = await page.cookies();
+  console.log("Cookies set:", cookies);
+  await page.goto("http://localhost:3000/logout");
+})();
 app.use(express.json()); // For parsing application/json
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 app.use(
@@ -65,6 +81,7 @@ app.use(
     },
     resave: false,
     saveUninitialized: false,
+    SameSite: true,
   })
 );
 

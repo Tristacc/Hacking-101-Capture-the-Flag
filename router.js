@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express.Router();
 const usersController = require("./db/users");
+const expressSession = require("express-session");
 
 app.get("/", (req, res) => {
   res.render("problemOne");
@@ -18,7 +19,21 @@ app.get("/signUp", (req, res) => {
 });
 
 app.get("/logIn", (req, res) => {
-  res.render("problemThree-mainpage");
+  if (!req.session.user) {
+    // Redirect to login if not logged in
+    res.redirect("/djfoei89788");
+  } else {
+    res.render("problemThree-mainpage");
+  }
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return console.error(err);
+    }
+    res.redirect("/djfoei89788"); // Redirect to login page
+  });
 });
 
 app.post("/logIn", usersController.verifyID, usersController.redirectPage);

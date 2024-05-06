@@ -5,8 +5,8 @@ const port = 3000;
 
 const sqlite3 = require("sqlite3").verbose();
 const expressValidator = require("express-validator");
-const passport = require("passport");
 const expressSession = require("express-session");
+
 // create server and setsup
 app.set("view engine", "ejs");
 app.use(layouts);
@@ -35,12 +35,38 @@ function initializeDatabase() {
         console.error("Error creating table:", err.message);
         return;
       }
+      insertDefaultAdmin();
       console.log("Table 'users' ensured.");
     }
   );
 }
+function insertDefaultAdmin() {
+  const sql = `INSERT OR IGNORE INTO users (name, email, password, isAdmin) VALUES (?, ?, ?, ?)`;
+  db.run(sql, ["admin", "admin@email.com", "admin", true], function (err) {
+    if (err) {
+      console.error("Error inserting default admin:", err.message);
+      return;
+    }
+    if (this.changes > 0) {
+      console.log("Default admin user added.");
+    } else {
+      console.log("Default admin user already exists.");
+    }
+  });
+}
 app.use(express.json()); // For parsing application/json
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
+app.use(
+  expressSession({
+    secret: "secret_passcode",
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      httpOnly: false,
+    },
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 const db = new sqlite3.Database(
   "./db/xssProject.db",
@@ -56,20 +82,17 @@ const db = new sqlite3.Database(
 );
 const routers = require("./router.js");
 
-//router handlers and MW
-app.use("/", routers);
-
 //sets up local variable
 app.use((req, res, next) => {
-  res.locals.loggedIn = req.isAuthenticated();
-  if (res.locals.loggedIn && res.locals.currentUser.isAdmin) {
-    res.locals.status = "Admin";
-  } else if (res.locals.loggedIn) {
-    res.locals.status = "User";
-    next();
-  }
-});
+  if (req.session.user) {
+    res.locals.status = req.session.user.admin;
 
+    console.log("here" + res.locals.status);
+  }
+  next();
+});
+//router handlers and MW
+app.use("/", routers);
 // create server and setsup
 app.listen(port, () =>
   console.log(`The server is running on http://localhost:${port}`)

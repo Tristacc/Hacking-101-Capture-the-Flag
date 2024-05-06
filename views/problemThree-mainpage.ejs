@@ -1,6 +1,12 @@
 <!-- only logged in user and admin can access the context of this page  -->
-
-<!-- you are user -->
-<p> you are normal user </p>
-<!-- you are admin -->
+<% if(status == 'true'){ %>
 <p>you are admin</p>
+<% }else{ %>
+<p> you are normal user </p>
+
+<%} %>
+<!-- you are user -->
+
+
+
+<a href="/logout">logout</a>

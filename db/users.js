@@ -21,27 +21,28 @@ function verifyID(req, res, next) {
 
   console.log("here in verifyID function");
 
-  let sql = `SELECT email, password FROM users WHERE email = ?`;
+  let sql = `SELECT id, email, password, isAdmin FROM users WHERE email = ?`;
   db.get(sql, [email], (err, row) => {
     if (err) {
       console.error("Error querying the database:", err.message);
-      next(err);
+      return next(err);
     }
     if (!row) {
       console.error("No user found with this email.");
-      //go to login page
+      // Redirect to login
       res.locals.redirect = "/djfoei89788";
-      next();
+      return next();
     }
-    // Check if the passwords match
     if (row.password === password) {
       console.log("Password matches. User authenticated.");
-      //go to login page
+      // Store user info in session
+      req.session.user = { email: row.email, admin: row.isAdmin };
+      console.log("here:" + req.session.user.admin);
       res.locals.redirect = "/logIn";
       next();
     } else {
       console.error("Password does not match.");
-      //go to login page
+      // Redirect to login
       res.locals.redirect = "/djfoei89788";
       next();
     }
@@ -80,10 +81,6 @@ function showAll(req, res, next) {
   });
 }
 
-function logInPage(req, res) {
-  res.render("problemThree");
-}
-
 function redirectPage(req, res, next) {
   let redirectPath = res.locals.redirect;
   if (redirectPath) {
@@ -97,7 +94,7 @@ function redirectPage(req, res, next) {
 module.exports = {
   addUser,
   verifyID,
-  logInPage,
+
   showAll,
   redirectPage,
 };

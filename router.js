@@ -17,12 +17,16 @@ app.get("/signUp", (req, res) => {
   res.render("signUp");
 });
 
-app.post("/logIn", usersController.validate);
+app.get("/logIn", (req, res) => {
+  res.render("problemThree-mainpage");
+});
+
+app.post("/logIn", usersController.verifyID, usersController.redirectPage);
 app.post(
   "/signUp",
   usersController.addUser,
-  usersController.logInPage,
-  usersController.showAll
+  usersController.showAll,
+  usersController.redirectPage
 );
 
 module.exports = app;

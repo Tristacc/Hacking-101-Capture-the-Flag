@@ -58,6 +58,17 @@ const routers = require("./router.js");
 //router handlers and MW
 app.use("/", routers);
 
+//sets up local variable
+app.use((req, res, next) => {
+  res.locals.loggedIn = req.isAuthenticated();
+  if (res.locals.loggedIn && res.locals.currentUser.isAdmin) {
+    res.locals.status = "Admin";
+  } else if (res.locals.loggedIn) {
+    res.locals.status = "User";
+    next();
+  }
+});
+
 // create server and setsup
 app.listen(port, () =>
   console.log(`The server is running on http://localhost:${port}`)

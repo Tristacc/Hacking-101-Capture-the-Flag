@@ -15,9 +15,37 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
   console.log("Connected successfully to the database.");
 });
 
-function validate(req, res, next) {
-  console.log("check user");
-  next();
+function verifyID(req, res, next) {
+  let email = req.body.email;
+  let password = req.body.password;
+
+  console.log("here in verifyID function");
+
+  let sql = `SELECT email, password FROM users WHERE email = ?`;
+  db.get(sql, [email], (err, row) => {
+    if (err) {
+      console.error("Error querying the database:", err.message);
+      next(err);
+    }
+    if (!row) {
+      console.error("No user found with this email.");
+      //go to login page
+      res.locals.redirect = "/djfoei89788";
+      next();
+    }
+    // Check if the passwords match
+    if (row.password === password) {
+      console.log("Password matches. User authenticated.");
+      //go to login page
+      res.locals.redirect = "/logIn";
+      next();
+    } else {
+      console.error("Password does not match.");
+      //go to login page
+      res.locals.redirect = "/djfoei89788";
+      next();
+    }
+  });
 }
 
 function addUser(req, res, next) {
@@ -33,6 +61,7 @@ function addUser(req, res, next) {
         return;
       }
       console.log("Add new user successfully");
+      res.locals.redirect = "/djfoei89788";
       next();
     }
   );
@@ -55,10 +84,20 @@ function logInPage(req, res) {
   res.render("problemThree");
 }
 
+function redirectPage(req, res, next) {
+  let redirectPath = res.locals.redirect;
+  if (redirectPath) {
+    res.redirect(redirectPath);
+  } else {
+    next();
+  }
+}
+
 // Export all functions
 module.exports = {
   addUser,
-  validate,
+  verifyID,
   logInPage,
   showAll,
+  redirectPage,
 };

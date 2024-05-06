@@ -56,23 +56,23 @@ function insertDefaultAdmin() {
 //********************************//
 //*******  Testing block   *******//
 //********************************//
-(async () => {
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
+// (async () => {
+//   const browser = await puppeteer.launch({ headless: true });
+//   const page = await browser.newPage();
 
-  // Go to the login page
-  await page.goto("http://localhost:3000/login", { waitUntil: "networkidle0" });
+//   // Go to the login page
+//   await page.goto("http://localhost:3000/login", { waitUntil: "networkidle0" });
 
-  // Assuming form fields are named appropriately
-  await page.type("[name=email]", "admin@email.com");
-  await page.type("[name=password]", "admin");
-  await page.click("[type=submit]");
+//   // Assuming form fields are named appropriately
+//   await page.type("[name=email]", "admin@email.com");
+//   await page.type("[name=password]", "admin");
+//   await page.click("[type=submit]");
 
-  // Check cookies set by the server
-  const cookies = await page.cookies();
-  console.log("Cookies set:", cookies);
-  await page.goto("http://localhost:3000/logout");
-})();
+//   // Check cookies set by the server
+//   const cookies = await page.cookies();
+//   console.log("Cookies set:", cookies);
+//   await page.goto("http://localhost:3000/logout");
+// })();
 
 //********************************//
 //***  cookie sets up         ****//

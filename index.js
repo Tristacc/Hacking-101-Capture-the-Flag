@@ -2,7 +2,6 @@ const express = require("express");
 const layouts = require("express-ejs-layouts");
 const app = express();
 const port = 3000;
-
 const sqlite3 = require("sqlite3").verbose();
 const expressSession = require("express-session");
 const puppeteer = require("puppeteer");
@@ -14,9 +13,9 @@ app.use(express.json());
 //handle static files
 app.use(express.static("public"));
 
-/*************************************************
- * Databse setting up
- **********************************************/
+//********************************//
+//******** Data base setUp *******//
+//********************************//
 
 // Function to initialize database tables
 function initializeDatabase() {
@@ -53,6 +52,10 @@ function insertDefaultAdmin() {
     }
   });
 }
+
+//********************************//
+//*******  Testing block   *******//
+//********************************//
 (async () => {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
@@ -70,6 +73,11 @@ function insertDefaultAdmin() {
   console.log("Cookies set:", cookies);
   await page.goto("http://localhost:3000/logout");
 })();
+
+//********************************//
+//***  cookie sets up         ****//
+//********************************//
+
 app.use(express.json()); // For parsing application/json
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 app.use(

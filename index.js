@@ -4,8 +4,9 @@ const app = express();
 const port = 3000;
 
 const sqlite3 = require("sqlite3").verbose();
-// const routers = require("./router.js");
-
+const expressValidator = require("express-validator");
+const passport = require("passport");
+const expressSession = require("express-session");
 // create server and setsup
 app.set("view engine", "ejs");
 app.use(layouts);

@@ -75,3 +75,20 @@ We ended up using Puppeteer to test our web application and for potential CI/CD 
 ## Future Direction
 
 We still need to work on hiding some of our HTML code from the client side to prevent them from manually switching their URL. For example, in questions one and two, users can actually see the URL to the next question by inspecting the HTML form. Next, we need to smooth out user interaction and allow users to copy the cookie from the alert() message because currently, JavaScript does not allow selecting user interaction on the alert message. Finally, we want to improve our third question to gain better control over manipulating the cookie.
+
+## Challenge Defenses
+
+# 1 DOM based XSS
+
+- Disable Inline JavaScript: Avoiding inline JavaScript and inline event handlers helps control and sanitize events more effectively. Using external JavaScript files to handle events is recommended.
+- DOM Sanitization: Before enabling any DOM element (like changing the disabled attribute), it is important to validate and sanitize the context to ensure no malicious scripts are executed.
+
+# 2 Reflected XSS
+
+- URL Encoding: Encoding and escaping all URL parameters that are reflected back into the page prevents malicious scripts from being executed.
+- Use Anti-XSS Libraries: Employing libraries that specifically focus on filtering out XSS vectors, such as Google's Caja compiler, helps sanitize HTML and CSS to ensure they do not contain dangerous code.
+
+# 3 Stored XSS
+
+- Rich Text Sanitization: Sanitizing rich text inputs on the server side before storing them in a database is essential.
+- Strict Content Validation: Implementing strict validation rules for all input forms ensures that only expected and safe data is accepted.
